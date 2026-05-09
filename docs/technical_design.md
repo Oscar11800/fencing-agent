@@ -66,6 +66,53 @@ fencing-agent/
     - README.md
 
 # Database Schema 
+## session
+| Column    | Type     | Notes                              | 
+|-----------------------------------------------------------|
+| id        | UUID     | PK generated serverside for API    |
+| created_at| TIMESTAMP| When session starts                |
+| updated_at| TIMESTAMP| Last activity, update on every msg |
+| status    | VARCHAR  | "active", "escalated", "closed"    |
+| metadata  | JSONB    | optional JSON                      |
+
+## messages
+| Column     | Type     | Notes                                   | 
+|-----------------------------------------------------------------|
+| id         | UUID     | PK                                      |
+| session_id | UUID     | FK -> sessions.id                       |
+| role       | VARCHAR  | "user" or "assistant"                   |
+| content    | TEXT     | Message text                            |
+| created_at | TIMESTAMP| When session starts                     |
+| flagged    | BOOLEAN  | was this msg flagged by guardrails      |
+| flag_reason| VARCHAR  | "prompt_injection", "abuse", "off_topic"|
+
+## documents
+| Column     | Type        | Notes                                               | 
+|--------------------------------------------------------------------------------|
+| id         | UUID        | PK                                                  |
+| source_file| UUID        | Which md file did this come from                    |
+| chunk_index| INTEGER     | Position of chunk in source file                    |
+| content    | TEXT        | Text chunk                                          |
+| embedding  | VECTOR(1536)| Vector embedding, 1536 for OAI output, pgvector use |
+| created_at | TIMESTAMP   | When embedding was (for staleness)                  |
+
+## flagged_events
+| Column     | Type     | Notes                                              | 
+|----------------------------------------------------------------------------|
+| id         | UUID     | PK                                                 |
+| session_id | UUID     | FK -> sessions.id                                  |
+| message_id | UUID     | FK -> messages.id, which msg flagged               |
+| event_type | VARCHAR  | "prompt_injection", "abuse", "repeat", "escalation"|
+| created_at | TIMESTAMP| When session starts                                |
+| details    | details  | Description of what happened                       |
+| created_at | TIMESTAMP| When session starts                                |
+
+### Relationships
+    - one session -> many messages 
+    - one session -> many flagged_events 
+    - one message -> many flagged_events 
+
+We decide on separate flagged_events table for rich content on flagged event logging and the flagged boolean is mainly for message filtering. Messages can have many flagged_events in case they trigger multiple in a single message. 
 
 # Classes & Modules 
 
