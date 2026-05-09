@@ -1,9 +1,10 @@
 # Project Structure 
 ## Layers
-    1. API Layer: handles http 
-    2. Service Layer: business logic, RAG, guardrails
-    3. Data Layer: communicates with DB and OAI API 
-    4. Models Layer: defines db schema and models
+1. API Layer: handles http 
+2. Service Layer: business logic, RAG, guardrails
+3. Data Layer: communicates with DB and OAI API 
+4. Models Layer: defines db schema and models
+
 ## Structure 
 fencing-agent/
     - docs/
@@ -68,7 +69,7 @@ fencing-agent/
 # Database Schema 
 ## session
 | Column    | Type     | Notes                              | 
-|-----------------------------------------------------------|
+|-----------|----------|------------------------------------|
 | id        | UUID     | PK generated serverside for API    |
 | created_at| TIMESTAMP| When session starts                |
 | updated_at| TIMESTAMP| Last activity, update on every msg |
@@ -77,7 +78,7 @@ fencing-agent/
 
 ## messages
 | Column     | Type     | Notes                                   | 
-|-----------------------------------------------------------------|
+|------------|----------|-----------------------------------------|
 | id         | UUID     | PK                                      |
 | session_id | UUID     | FK -> sessions.id                       |
 | role       | VARCHAR  | "user" or "assistant"                   |
@@ -88,7 +89,7 @@ fencing-agent/
 
 ## documents
 | Column     | Type        | Notes                                               | 
-|--------------------------------------------------------------------------------|
+|------------|-------------|-----------------------------------------------------|
 | id         | UUID        | PK                                                  |
 | source_file| UUID        | Which md file did this come from                    |
 | chunk_index| INTEGER     | Position of chunk in source file                    |
@@ -98,12 +99,11 @@ fencing-agent/
 
 ## flagged_events
 | Column     | Type     | Notes                                              | 
-|----------------------------------------------------------------------------|
+|------------|----------|----------------------------------------------------|
 | id         | UUID     | PK                                                 |
 | session_id | UUID     | FK -> sessions.id                                  |
 | message_id | UUID     | FK -> messages.id, which msg flagged               |
 | event_type | VARCHAR  | "prompt_injection", "abuse", "repeat", "escalation"|
-| created_at | TIMESTAMP| When session starts                                |
 | details    | TEXT     | Description of what happened                       |
 | created_at | TIMESTAMP| When session starts                                |
 
