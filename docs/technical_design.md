@@ -104,7 +104,7 @@ fencing-agent/
 | message_id | UUID     | FK -> messages.id, which msg flagged               |
 | event_type | VARCHAR  | "prompt_injection", "abuse", "repeat", "escalation"|
 | created_at | TIMESTAMP| When session starts                                |
-| details    | details  | Description of what happened                       |
+| details    | TEXT     | Description of what happened                       |
 | created_at | TIMESTAMP| When session starts                                |
 
 ### Relationships
