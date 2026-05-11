@@ -1,11 +1,18 @@
-import uuid 
+import uuid
+
 from sqlalchemy.ext.asyncio import AsyncSession
-from fencing_agent.db.repositories import get_history, save_message
+
 from fencing_agent.clients.openai import get_chat_response
 from fencing_agent.core.prompts import SYSTEM_PROMPT
+from fencing_agent.db.repositories import get_history, save_message
 
-# TODO: Add limit to history being sent, history context compactor after reaching a certain limit
-async def handle_message(db: AsyncSession, session_id: uuid.UUID, user_message: str) -> str:
+
+# TODO: history context compactor after reaching a certain limit
+async def handle_message(
+        db: AsyncSession,
+        session_id: uuid.UUID,
+        user_message: str
+) -> str:
     history = await get_history(db, session_id)
     # build the prompt
     # start with the system prompt

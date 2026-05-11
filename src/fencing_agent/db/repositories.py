@@ -1,7 +1,10 @@
-import uuid 
+import uuid
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from fencing_agent.db.models import Session, Message
+
+from fencing_agent.db.models import Message, Session
+
 
 async def create_session(db: AsyncSession) -> Session: 
     new_session = Session(id=uuid.uuid4(), status="active")
@@ -9,8 +12,17 @@ async def create_session(db: AsyncSession) -> Session:
     await db.commit()
     return new_session
 
-async def save_message(db: AsyncSession, session_id: uuid.UUID, role: str, content: str) -> Message:
-    new_message = Message(id=uuid.uuid4(), session_id=session_id, role=role, content=content)
+async def save_message(
+        db: AsyncSession,
+        session_id: uuid.UUID,
+        role: str,
+        content: str
+) -> Message:
+    new_message = Message(
+        id=uuid.uuid4(),
+        session_id=session_id,
+        role=role, content=content
+    )
     db.add(new_message)
     await db.commit()
     return new_message

@@ -1,9 +1,11 @@
-import uuid 
-from datetime import datetime 
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import ForeignKey, Text, String
-from pgvector.sqlalchemy import Vector
+import uuid
+from datetime import datetime
 from typing import Optional
+
+from pgvector.sqlalchemy import Vector
+from sqlalchemy import ForeignKey, Text
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+
 
 class Base(DeclarativeBase):
     pass
