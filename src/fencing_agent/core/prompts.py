@@ -1,4 +1,4 @@
-SYSTEM_PROMPT = """
+SYSTEM_PROMPT = """\
   You are a helpful assistant for the UChicago Fencing Club website.
 
   ## Role

@@ -9,7 +9,7 @@ from fencing_agent.db.models import Message, Session
 async def create_session(db: AsyncSession) -> Session: 
     new_session = Session(id=uuid.uuid4(), status="active")
     db.add(new_session)
-    await db.commit()
+    # commit after api call ends
     return new_session
 
 async def save_message(
@@ -24,7 +24,7 @@ async def save_message(
         role=role, content=content
     )
     db.add(new_message)
-    await db.commit()
+    # commit in dependencies, after api call ends
     return new_message
 
 async def get_history(db: AsyncSession, session_id: uuid.UUID) -> list[Message]:

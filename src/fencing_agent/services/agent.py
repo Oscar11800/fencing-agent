@@ -24,10 +24,12 @@ async def handle_message(
     
     # current user msg
     messages.append({"role": "user", "content": user_message})
-    
-    # call OAI API
-    response = await get_chat_response(messages)
 
     await save_message(db, session_id, "user", user_message)
+    
+    # call OAI API
+    # TODO: add error handling on client failure
+    response = await get_chat_response(messages)
+
     await save_message(db, session_id, "assistant", response)
     return response

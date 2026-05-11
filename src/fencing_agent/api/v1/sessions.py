@@ -11,6 +11,6 @@ from fencing_agent.schemas.sessions import SessionResponse
 router = APIRouter(prefix="/api/v1")
 
 @router.post("/sessions")
-async def sessions(db: AsyncSession=Depends(get_db)):
+async def sessions(db: AsyncSession = Depends(get_db)):
     response = await create_session(db)
     return SessionResponse(session_id=str(response.id), welcome_message=WELCOME_MESSAGE)

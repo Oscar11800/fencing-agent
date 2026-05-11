@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional
 
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import ForeignKey, Text
+from sqlalchemy import ForeignKey, Text, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -13,8 +13,8 @@ class Base(DeclarativeBase):
 class Session(Base):
     __tablename__ = "sessions"
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
-    created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
-    updated_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(default=func.now())
     status: Mapped[str] = mapped_column(default="active") 
 
 class Message(Base):
@@ -23,7 +23,7 @@ class Message(Base):
     session_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("sessions.id"))
     role: Mapped[str]
     content: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(default=func.now())
     flagged: Mapped[bool] = mapped_column(default=False)
     flag_reason: Mapped[Optional[str]] = mapped_column(default=None) 
 
@@ -34,6 +34,6 @@ class Document(Base):
     chunk_index: Mapped[int]
     content: Mapped[str] = mapped_column(Text)
     embedding = mapped_column(Vector(1536))
-    created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(default=func.now())
 
     
