@@ -26,7 +26,7 @@ async def save_message(
     db.add(new_message)
     # commit in dependencies, after api call ends
     return new_message
-
+ 
 async def get_history(db: AsyncSession, session_id: uuid.UUID) -> list[Message]:
     results = await db.execute(
         select(Message)

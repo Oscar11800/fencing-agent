@@ -7,6 +7,7 @@ from fencing_agent.core.dependencies import get_db
 from fencing_agent.schemas.chat import ChatRequest, ChatResponse
 from fencing_agent.services.agent import handle_message
 
+
 # api/v1/chat.py
 router = APIRouter(prefix="/api/v1")
 
@@ -21,4 +22,3 @@ async def chat(chat_request: ChatRequest, db: AsyncSession = Depends(get_db)):
         session_id=chat_request.session_id, 
         response=response    
     )
-
