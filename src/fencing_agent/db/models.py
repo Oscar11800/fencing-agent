@@ -21,7 +21,7 @@ class Message(Base):
     session_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("sessions.id"))
     role: Mapped[str]
     content: Mapped[str] = mapped_column(Text)
-created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
     flagged: Mapped[bool] = mapped_column(default=False)
     flag_reason: Mapped[Optional[str]] = mapped_column(default=None) 
 
