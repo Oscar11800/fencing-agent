@@ -1,4 +1,4 @@
-from pydantic_settings BaseSettings, SettingsConfigDict 
+from pydantic_settings import BaseSettings, SettingsConfigDict 
 
 class Settings(BaseSettings):
     openai_api_key: str 
