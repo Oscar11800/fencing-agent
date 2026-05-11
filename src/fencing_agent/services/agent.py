@@ -5,7 +5,7 @@ from fencing_agent.clients.openai import get_chat_response
 from fencing_agent.core.prompts import SYSTEM_PROMPT
 
 # TODO: Add limit to history being sent, history context compactor after reaching a certain limit
-async def handle_message( db: AsyncSession, session_id: uuid.UUID, user_message: str):
+async def handle_message(db: AsyncSession, session_id: uuid.UUID, user_message: str) -> str:
     history = await get_history(db, session_id)
     # build the prompt
     # start with the system prompt
@@ -19,7 +19,7 @@ async def handle_message( db: AsyncSession, session_id: uuid.UUID, user_message:
     messages.append({"role": "user", "content": user_message})
     
     # call OAI API
-    await response = get_chat_response(messages)
+    response = await get_chat_response(messages)
 
     await save_message(db, session_id, "user", user_message)
     await save_message(db, session_id, "assistant", response)
